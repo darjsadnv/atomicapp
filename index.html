@@ -164,6 +164,11 @@
             transform: translateY(0);
         }
 
+        .btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
         .function-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -213,42 +218,6 @@
             border-radius: 3px;
         }
 
-        .experience-item {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem;
-            border-left: 2px solid var(--accent);
-            position: relative;
-        }
-
-        .experience-item::before {
-            content: '';
-            position: absolute;
-            left: -8px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        .experience-title {
-            font-weight: bold;
-            color: var(--light);
-            margin-bottom: 0.5rem;
-        }
-
-        .experience-duration {
-            color: var(--secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .experience-description {
-            color: var(--light);
-            opacity: 0.9;
-        }
-
         footer {
             text-align: center;
             margin-top: 3rem;
@@ -283,108 +252,111 @@
             </div>
         </header>
 
-        <div class="card">
-            <h2 class="section-title">Personal Information</h2>
-            <div class="form-group">
-                <label for="discord">Discord Username</label>
-                <input type="text" id="discord" placeholder="Your Discord username#0000">
+        <form id="applicationForm">
+            <div class="card">
+                <h2 class="section-title">Personal Information</h2>
+                <div class="form-group">
+                    <label for="discord">Discord Username</label>
+                    <input type="text" id="discord" placeholder="Your Discord username#0000" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age (Optional)</label>
+                    <input type="number" id="age" placeholder="Your age">
+                </div>
+                <div class="form-group">
+                    <label for="timezone">Timezone</label>
+                    <input type="text" id="timezone" placeholder="Your timezone (e.g., UTC+3)" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="age">Age (Optional)</label>
-                <input type="number" id="age" placeholder="Your age">
-            </div>
-            <div class="form-group">
-                <label for="timezone">Timezone</label>
-                <input type="text" id="timezone" placeholder="Your timezone (e.g., UTC+3)">
-            </div>
-        </div>
 
-        <div class="card">
-            <h2 class="section-title">Experience</h2>
-            <div class="form-group">
-                <label for="experience">Years of Lua Experience</label>
-                <select id="experience">
-                    <option value="0">Less than 1 year</option>
-                    <option value="1">1-2 years</option>
-                    <option value="2">2-3 years</option>
-                    <option value="3">3-5 years</option>
-                    <option value="5">5+ years</option>
-                </select>
+            <div class="card">
+                <h2 class="section-title">Experience</h2>
+                <div class="form-group">
+                    <label for="experience">Years of Lua Experience</label>
+                    <select id="experience" required>
+                        <option value="" disabled selected>Select your experience</option>
+                        <option value="0">Less than 1 year</option>
+                        <option value="1">1-2 years</option>
+                        <option value="2">2-3 years</option>
+                        <option value="3">3-5 years</option>
+                        <option value="5">5+ years</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hookmetamethod">Can you explain hookmetamethod and provide an example of its use?</label>
+                    <textarea id="hookmetamethod" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="remote">Describe your experience with Remote Event and Function Manipulation functions (fireclickdetector, fireproximityprompt, etc.)</label>
+                    <textarea id="remote" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="debugging">How comfortable are you with debugging and inspection functions (debug.getinfo, debug.getupvalue, etc.)?</label>
+                    <textarea id="debugging" required></textarea>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="hookmetamethod">Can you explain hookmetamethod and provide an example of its use?</label>
-                <textarea id="hookmetamethod"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="remote">Describe your experience with Remote Event and Function Manipulation functions (fireclickdetector, fireproximityprompt, etc.)</label>
-                <textarea id="remote"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="debugging">How comfortable are you with debugging and inspection functions (debug.getinfo, debug.getupvalue, etc.)?</label>
-                <textarea id="debugging"></textarea>
-            </div>
-        </div>
 
-        <div class="card">
-            <h2 class="section-title">Function Knowledge</h2>
-            <p>Here are the functions we're particularly interested in:</p>
-            
-            <div class="function-grid">
-                <div class="function-card">
-                    <h3>hookmetamethod</h3>
-                    <p>Hooks a metamethod of an object, allowing you to intercept and modify its behavior.</p>
-                </div>
-                <div class="function-card">
-                    <h3>getrawmetatable</h3>
-                    <p>Retrieves the raw metatable of a Roblox object, bypassing protections.</p>
-                </div>
-                <div class="function-card">
-                    <h3>setreadonly/isreadonly</h3>
-                    <p>Manages read-only status of tables.</p>
-                </div>
-                <div class="function-card">
-                    <h3>loadstring/loadfile/dofile</h3>
-                    <p>Code execution and loading functions.</p>
-                </div>
-                <div class="function-card">
-                    <h3>fire* functions</h3>
-                    <p>Remote event and interaction functions.</p>
-                </div>
-                <div class="function-card">
-                    <h3>getconnections</h3>
-                    <p>Retrieves all connections for a given event.</p>
-                </div>
-                <div class="function-card">
-                    <h3>getgc/getreg</h3>
-                    <p>Garbage collector and registry access.</p>
-                </div>
-                <div class="function-card">
-                    <h3>getupvalues/setupvalue</h3>
-                    <p>Function upvalue manipulation.</p>
-                </div>
-                <div class="function-card">
-                    <h3>debug.* functions</h3>
-                    <p>Debugging and inspection utilities.</p>
+            <div class="card">
+                <h2 class="section-title">Function Knowledge</h2>
+                <p>Here are the functions we're particularly interested in:</p>
+                
+                <div class="function-grid">
+                    <div class="function-card">
+                        <h3>hookmetamethod</h3>
+                        <p>Hooks a metamethod of an object, allowing you to intercept and modify its behavior.</p>
+                    </div>
+                    <div class="function-card">
+                        <h3>getrawmetatable</h3>
+                        <p>Retrieves the raw metatable of a Roblox object, bypassing protections.</p>
+                    </div>
+                    <div class="function-card">
+                        <h3>setreadonly/isreadonly</h3>
+                        <p>Manages read-only status of tables.</p>
+                    </div>
+                    <div class="function-card">
+                        <h3>loadstring/loadfile/dofile</h3>
+                        <p>Code execution and loading functions.</p>
+                    </div>
+                    <div class="function-card">
+                        <h3>fire* functions</h3>
+                        <p>Remote event and interaction functions.</p>
+                    </div>
+                    <div class="function-card">
+                        <h3>getconnections</h3>
+                        <p>Retrieves all connections for a given event.</p>
+                    </div>
+                    <div class="function-card">
+                        <h3>getgc/getreg</h3>
+                        <p>Garbage collector and registry access.</p>
+                    </div>
+                    <div class="function-card">
+                        <h3>getupvalues/setupvalue</h3>
+                        <p>Function upvalue manipulation.</p>
+                    </div>
+                    <div class="function-card">
+                        <h3>debug.* functions</h3>
+                        <p>Debugging and inspection utilities.</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card">
-            <h2 class="section-title">Additional Information</h2>
-            <div class="form-group">
-                <label for="why">Why do you want to join the Atomic Server team?</label>
-                <textarea id="why" placeholder="Tell us why you're interested in this position"></textarea>
+            <div class="card">
+                <h2 class="section-title">Additional Information</h2>
+                <div class="form-group">
+                    <label for="why">Why do you want to join the Atomic Server team?</label>
+                    <textarea id="why" placeholder="Tell us why you're interested in this position" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="availability">Availability</label>
+                    <textarea id="availability" placeholder="How many hours per week can you commit?" required></textarea>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="availability">Availability</label>
-                <textarea id="availability" placeholder="How many hours per week can you commit?"></textarea>
-            </div>
-        </div>
 
-        <button class="btn" onclick="submitApplication()">Submit Application</button>
+            <button type="submit" class="btn" id="submitBtn">Submit Application</button>
+        </form>
 
         <footer>
             <p>© 2023 Atomic Server Lua Developer Application</p>
@@ -393,45 +365,67 @@
     </div>
 
     <script>
-        function submitApplication() {
-            // In a real application, this would send the data to your server
-            alert('Application submitted! Thank you for applying to Atomic Server.');
+        document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            // For demonstration, we'll just log the data
-            const applicationData = {
-                discord: document.getElementById('discord').value,
-                age: document.getElementById('age').value,
-                timezone: document.getElementById('timezone').value,
-                experience: document.getElementById('experience').value,
-                hookmetamethod: document.getElementById('hookmetamethod').value,
-                remote: document.getElementById('remote').value,
-                debugging: document.getElementById('debugging').value,
-                why: document.getElementById('why').value,
-                availability: document.getElementById('availability').value
-            };
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.classList.add('loading');
+            submitBtn.textContent = 'Submitting...';
             
-            console.log('Application Data:', applicationData);
-            
-            // Here you would typically send this data to your Discord webhook
-            // fetch('https://discord.com/api/webhooks/1353807566811041812/USqCqRR0328OwoKOmtLdaIIb-U8vdRsPEToz2N-oOOh_JlHCpnEqxXxWGt1ZquBfxhks', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         content: 'New Lua Developer Application',
-            //         embeds: [{
-            //             title: 'Application Submission',
-            //             description: `New application from ${applicationData.discord}`,
-            //             fields: [
-            //                 { name: 'Experience', value: applicationData.experience },
-            //                 { name: 'Timezone', value: applicationData.timezone },
-            //                 { name: 'Hookmetamethod Explanation', value: applicationData.hookmetamethod.substring(0, 1000) + (applicationData.hookmetamethod.length > 1000 ? '...' : '') }
-            //             ]
-            //         }]
-            //     })
-            // });
-        }
+            try {
+                const applicationData = {
+                    discord: document.getElementById('discord').value,
+                    age: document.getElementById('age').value || 'Not specified',
+                    timezone: document.getElementById('timezone').value,
+                    experience: document.getElementById('experience').value,
+                    hookmetamethod: document.getElementById('hookmetamethod').value,
+                    remote: document.getElementById('remote').value,
+                    debugging: document.getElementById('debugging').value,
+                    why: document.getElementById('why').value,
+                    availability: document.getElementById('availability').value
+                };
+                
+                // Send to Discord webhook
+                const response = await fetch('https://discord.com/api/webhooks/1353807566811041812/USqCqRR0328OwoKOmtLdaIIb-U8vdRsPEToz2N-oOOh_JlHCpnEqxXxWGt1ZquBfxhks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: 'New Lua Developer Application',
+                        embeds: [{
+                            title: 'Application Submission',
+                            description: `New application from ${applicationData.discord}`,
+                            fields: [
+                                { name: 'Age', value: applicationData.age, inline: true },
+                                { name: 'Timezone', value: applicationData.timezone, inline: true },
+                                { name: 'Experience', value: applicationData.experience, inline: true },
+                                { name: 'Hookmetamethod Explanation', value: applicationData.hookmetamethod.substring(0, 1000) + (applicationData.hookmetamethod.length > 1000 ? '...' : '') },
+                                { name: 'Remote Experience', value: applicationData.remote.substring(0, 1000) + (applicationData.remote.length > 1000 ? '...' : '') },
+                                { name: 'Debugging Experience', value: applicationData.debugging.substring(0, 1000) + (applicationData.debugging.length > 1000 ? '...' : '') },
+                                { name: 'Motivation', value: applicationData.why.substring(0, 1000) + (applicationData.why.length > 1000 ? '...' : '') },
+                                { name: 'Availability', value: applicationData.availability }
+                            ],
+                            color: 0xEF233C,
+                            timestamp: new Date().toISOString()
+                        }]
+                    })
+                });
+                
+                if (response.ok) {
+                    alert('Application submitted successfully! Thank you for applying to Atomic Server.');
+                    document.getElementById('applicationForm').reset();
+                } else {
+                    throw new Error('Failed to send to Discord');
+                }
+            } catch (error) {
+                console.error('Error submitting application:', error);
+                alert('There was an error submitting your application. Please try again.');
+            } finally {
+                submitBtn.classList.remove('loading');
+                submitBtn.textContent = 'Submit Application';
+            }
+        });
         
         // Add animations to cards when they come into view
         const cards = document.querySelectorAll('.card');
