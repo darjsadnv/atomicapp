@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lua Developer Application | Atomic Server</title>
+    <style>
+        :root {
+            --primary: #2b2d42;
+            --secondary: #8d99ae;
+            --accent: #ef233c;
+            --light: #edf2f4;
+            --dark: #1a1a2e;
+            --success: #4cc9f0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px var(--accent); }
+            50% { box-shadow: 0 0 20px var(--accent); }
+            100% { box-shadow: 0 0 5px var(--accent); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            animation: float 6s ease-in-out infinite, pulse 4s ease-in-out infinite;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 15px rgba(239, 35, 60, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            background: linear-gradient(to right, var(--light), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+        }
+
+        .tagline {
+            font-style: italic;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+        }
+
+        .card {
+            background: rgba(43, 45, 66, 0.7);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(141, 153, 174, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            animation: glow 2s infinite;
+        }
+
+        .card h2 {
+            color: var(--success);
+            margin-top: 0;
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--secondary);
+            background-color: rgba(26, 26, 46, 0.8);
+            color: var(--light);
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(239, 35, 60, 0.3);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--accent), #f72585);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(239, 35, 60, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 35, 60, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .function-card {
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 10px;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .function-card:hover {
+            background: rgba(26, 26, 46, 1);
+            transform: translateX(5px);
+        }
+
+        .function-card h3 {
+            color: var(--success);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .function-card p {
+            margin: 0;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent), transparent);
+            border-radius: 3px;
+        }
+
+        .experience-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--accent);
+            position: relative;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .experience-title {
+            font-weight: bold;
+            color: var(--light);
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-duration {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-description {
+            color: var(--light);
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            color: var(--secondary);
+            border-top: 1px solid rgba(141, 153, 174, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            .function-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://media.discordapp.net/attachments/1347538215690829895/1355117730402926643/Atomic.png?ex=67e7c33b&is=67e671bb&hm=dca60d77cb8eb5adbff6a8527cf23a0dd168baab0054ad8b6feeda6118fb30c0&=&format=webp&quality=lossless&width=466&height=466" alt="Atomic Server Logo" class="logo">
+            <div>
+                <h1>Lua Developer Application</h1>
+                <p class="tagline">Applying for a position at Atomic Server</p>
+            </div>
+        </header>
+
+        <div class="card">
+            <h2 class="section-title">Personal Information</h2>
+            <div class="form-group">
+                <label for="discord">Discord Username</label>
+                <input type="text" id="discord" placeholder="Your Discord username#0000">
+            </div>
+            <div class="form-group">
+                <label for="age">Age (Optional)</label>
+                <input type="number" id="age" placeholder="Your age">
+            </div>
+            <div class="form-group">
+                <label for="timezone">Timezone</label>
+                <input type="text" id="timezone" placeholder="Your timezone (e.g., UTC+3)">
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Experience</h2>
+            <div class="form-group">
+                <label for="experience">Years of Lua Experience</label>
+                <select id="experience">
+                    <option value="0">Less than 1 year</option>
+                    <option value="1">1-2 years</option>
+                    <option value="2">2-3 years</option>
+                    <option value="3">3-5 years</option>
+                    <option value="5">5+ years</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="hookmetamethod">Can you explain hookmetamethod and provide an example of its use?</label>
+                <textarea id="hookmetamethod"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="remote">Describe your experience with Remote Event and Function Manipulation functions (fireclickdetector, fireproximityprompt, etc.)</label>
+                <textarea id="remote"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="debugging">How comfortable are you with debugging and inspection functions (debug.getinfo, debug.getupvalue, etc.)?</label>
+                <textarea id="debugging"></textarea>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Function Knowledge</h2>
+            <p>Here are the functions we're particularly interested in:</p>
+            
+            <div class="function-grid">
+                <div class="function-card">
+                    <h3>hookmetamethod</h3>
+                    <p>Hooks a metamethod of an object, allowing you to intercept and modify its behavior.</p>
+                </div>
+                <div class="function-card">
+                    <h3>getrawmetatable</h3>
+                    <p>Retrieves the raw metatable of a Roblox object, bypassing protections.</p>
+                </div>
+                <div class="function-card">
+                    <h3>setreadonly/isreadonly</h3>
+                    <p>Manages read-only status of tables.</p>
+                </div>
+                <div class="function-card">
+                    <h3>loadstring/loadfile/dofile</h3>
+                    <p>Code execution and loading functions.</p>
+                </div>
+                <div class="function-card">
+                    <h3>fire* functions</h3>
+                    <p>Remote event and interaction functions.</p>
+                </div>
+                <div class="function-card">
+                    <h3>getconnections</h3>
+                    <p>Retrieves all connections for a given event.</p>
+                </div>
+                <div class="function-card">
+                    <h3>getgc/getreg</h3>
+                    <p>Garbage collector and registry access.</p>
+                </div>
+                <div class="function-card">
+                    <h3>getupvalues/setupvalue</h3>
+                    <p>Function upvalue manipulation.</p>
+                </div>
+                <div class="function-card">
+                    <h3>debug.* functions</h3>
+                    <p>Debugging and inspection utilities.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Additional Information</h2>
+            <div class="form-group">
+                <label for="why">Why do you want to join the Atomic Server team?</label>
+                <textarea id="why" placeholder="Tell us why you're interested in this position"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="availability">Availability</label>
+                <textarea id="availability" placeholder="How many hours per week can you commit?"></textarea>
+            </div>
+        </div>
+
+        <button class="btn" onclick="submitApplication()">Submit Application</button>
+
+        <footer>
+            <p>© 2023 Atomic Server Lua Developer Application</p>
+            <p>Thank you for your interest in joining our team!</p>
+        </footer>
+    </div>
+
+    <script>
+        function submitApplication() {
+            // In a real application, this would send the data to your server
+            alert('Application submitted! Thank you for applying to Atomic Server.');
+            
+            // For demonstration, we'll just log the data
+            const applicationData = {
+                discord: document.getElementById('discord').value,
+                age: document.getElementById('age').value,
+                timezone: document.getElementById('timezone').value,
+                experience: document.getElementById('experience').value,
+                hookmetamethod: document.getElementById('hookmetamethod').value,
+                remote: document.getElementById('remote').value,
+                debugging: document.getElementById('debugging').value,
+                why: document.getElementById('why').value,
+                availability: document.getElementById('availability').value
+            };
+            
+            console.log('Application Data:', applicationData);
+            
+            // Here you would typically send this data to your Discord webhook
+            // fetch('https://discord.com/api/webhooks/1353807566811041812/USqCqRR0328OwoKOmtLdaIIb-U8vdRsPEToz2N-oOOh_JlHCpnEqxXxWGt1ZquBfxhks', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         content: 'New Lua Developer Application',
+            //         embeds: [{
+            //             title: 'Application Submission',
+            //             description: `New application from ${applicationData.discord}`,
+            //             fields: [
+            //                 { name: 'Experience', value: applicationData.experience },
+            //                 { name: 'Timezone', value: applicationData.timezone },
+            //                 { name: 'Hookmetamethod Explanation', value: applicationData.hookmetamethod.substring(0, 1000) + (applicationData.hookmetamethod.length > 1000 ? '...' : '') }
+            //             ]
+            //         }]
+            //     })
+            // });
+        }
+        
+        // Add animations to cards when they come into view
+        const cards = document.querySelectorAll('.card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideIn 0.8s ease-out forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        cards.forEach(card => {
+            observer.observe(card);
+            card.style.opacity = '0';
+        });
+    </script>
+</body>
+</html>
